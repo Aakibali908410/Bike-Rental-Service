@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Duke 250 illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#7c2d12"/>
+    </linearGradient>
+    <radialGradient id="spot" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#spot)"/>
+  <ellipse cx="400" cy="520" rx="340" ry="26" fill="#000000" opacity="0.28"/>
+<circle cx="196" cy="476" r="84" fill="#0b0f19"/>
+<circle cx="196" cy="476" r="70" fill="none" stroke="#f8fafc" stroke-width="7" opacity="0.9"/>
+<circle cx="196" cy="476" r="18" fill="#f8fafc" opacity="0.9"/>
+<line x1="216" y1="476" x2="264" y2="476" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="210" y1="490" x2="244" y2="524" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="196" y1="496" x2="196" y2="544" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="182" y1="490" x2="148" y2="524" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="176" y1="476" x2="128" y2="476" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="182" y1="462" x2="148" y2="428" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="196" y1="456" x2="196" y2="408" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="210" y1="462" x2="244" y2="428" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<circle cx="608" cy="476" r="84" fill="#0b0f19"/>
+<circle cx="608" cy="476" r="70" fill="none" stroke="#f8fafc" stroke-width="7" opacity="0.9"/>
+<circle cx="608" cy="476" r="18" fill="#f8fafc" opacity="0.9"/>
+<line x1="628" y1="476" x2="676" y2="476" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="622" y1="490" x2="656" y2="524" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="608" y1="496" x2="608" y2="544" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="594" y1="490" x2="560" y2="524" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="588" y1="476" x2="540" y2="476" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="594" y1="462" x2="560" y2="428" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="608" y1="456" x2="608" y2="408" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="622" y1="462" x2="656" y2="428" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<g fill="#f8fafc" opacity="0.98">
+<path d="M120 420 L160 384 L280 372 L330 336 L392 322 L456 322 L486 300 C520 276 566 272 604 288 L662 320 L700 372 L706 412 L668 420 L636 452 L534 452 L500 420 L360 420 L318 452 L226 452 L196 420 Z"/>
+<path d="M486 300 C520 276 566 272 604 288 L640 316 L560 320 L500 312 Z" fill="#f8fafc" opacity="0.7"/>
+<path d="M360 340 C384 316 428 312 456 328 C466 334 462 352 448 356 L372 356 Z"/>
+<path d="M226 384 C246 366 284 364 306 378 C314 384 310 398 298 402 L238 402 Z"/>
+<path d="M598 292 L578 262 M598 292 L624 266" stroke="#f8fafc" stroke-width="9" stroke-linecap="round" fill="none"/>
+<rect x="470" y="424" width="120" height="18" rx="9" opacity="0.85"/>
+<rect x="592" y="332" width="12" height="70" rx="6" fill="#111827"/>
+<rect x="228" y="404" width="12" height="46" rx="6" fill="#111827"/>
+</g>
+
+  <text x="400" y="80" text-anchor="middle" font-size="40" font-weight="800" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" opacity="0.95">Duke 250</text>
+</svg>

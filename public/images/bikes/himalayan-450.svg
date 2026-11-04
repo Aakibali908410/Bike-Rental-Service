@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Himalayan 450 illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <radialGradient id="spot" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#spot)"/>
+  <ellipse cx="400" cy="520" rx="340" ry="26" fill="#000000" opacity="0.28"/>
+<circle cx="190" cy="470" r="100" fill="#0b0f19"/>
+<circle cx="190" cy="470" r="86" fill="none" stroke="#f8fafc" stroke-width="7" opacity="0.9"/>
+<circle cx="190" cy="470" r="18" fill="#f8fafc" opacity="0.9"/>
+<line x1="210" y1="470" x2="274" y2="470" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="204" y1="484" x2="249" y2="529" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="190" y1="490" x2="190" y2="554" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="176" y1="484" x2="131" y2="529" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="170" y1="470" x2="106" y2="470" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="176" y1="456" x2="131" y2="411" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="190" y1="450" x2="190" y2="386" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="204" y1="456" x2="249" y2="411" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<circle cx="606" cy="470" r="90" fill="#0b0f19"/>
+<circle cx="606" cy="470" r="76" fill="none" stroke="#f8fafc" stroke-width="7" opacity="0.9"/>
+<circle cx="606" cy="470" r="18" fill="#f8fafc" opacity="0.9"/>
+<line x1="626" y1="470" x2="680" y2="470" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="620" y1="484" x2="658" y2="522" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="606" y1="490" x2="606" y2="544" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="592" y1="484" x2="554" y2="522" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="586" y1="470" x2="532" y2="470" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="592" y1="456" x2="554" y2="418" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="606" y1="450" x2="606" y2="396" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<line x1="620" y1="456" x2="658" y2="418" stroke="#f8fafc" stroke-width="4" opacity="0.55"/>
+<g fill="#f8fafc" opacity="0.98">
+<path d="M114 420 L150 372 L206 350 L270 350 L330 320 L392 306 L452 306 L486 276 C512 254 552 248 584 260 L634 292 L668 350 L672 400 L634 420 L602 452 L520 452 L492 420 L360 420 L316 452 L228 452 L200 420 Z"/>
+<path d="M114 420 L86 404 L104 372 L150 372 Z" fill="#f8fafc" opacity="0.85"/>
+<path d="M486 276 C512 254 552 248 584 260 L604 296 L536 300 L494 288 Z" fill="#f8fafc" opacity="0.7"/>
+<path d="M330 320 C356 296 404 292 436 308 C448 314 444 334 430 338 L344 338 Z"/>
+<path d="M226 372 L306 372" stroke="#f8fafc" stroke-width="8" stroke-linecap="round"/>
+<rect x="598" y="300" width="14" height="90" rx="6" fill="#111827"/>
+<rect x="224" y="376" width="14" height="66" rx="6" fill="#111827"/>
+<path d="M566 262 L546 226 M566 262 L598 224" stroke="#f8fafc" stroke-width="10" stroke-linecap="round" fill="none"/>
+</g>
+
+  <text x="400" y="80" text-anchor="middle" font-size="40" font-weight="800" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" opacity="0.95">Himalayan 450</text>
+</svg>

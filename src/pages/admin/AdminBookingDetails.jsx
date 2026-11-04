@@ -1,0 +1,29 @@
+import { useContext, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { ArrowLeft, CalendarDays } from 'lucide-react';
+import AdminLayout from '../../layouts/AdminLayout';
+import Button from '../../components/Button';
+import Modal from '../../components/Modal';
+import Select from '../../components/Select';
+import { BookingContext } from '../../context/BookingContext';
+import { PaymentContext } from '../../context/PaymentContext';
+import { AdminPage, EmptyAdminState, StatusBadge, formatCurrency, formatDate } from './AdminUI';
+
+const AdminBookingDetails = () => {
+  const { bookingId } = useParams();
+  const { bookings, updateBooking } = useContext(BookingContext);
+  const { getPaymentById } = useContext(PaymentContext);
+  const booking = bookings.find((item) => item.id === bookingId);
+  const payment = getPaymentById(bookingId);
+  const [pendingStatus, setPendingStatus] = useState('');
+  const [notice, setNotice] = useState('');
+  if (!booking) return <AdminLayout><AdminPage eyebrow="Operations" title="Booking not found"><EmptyAdminState title="Booking Not Found" message="This booking could not be found." action={<Link to="/admin/bookings"><Button>Back to Bookings</Button></Link>} /></AdminPage></AdminLayout>;
+  const currentStatus = (booking.bookingStatus || 'confirmed').toLowerCase();
+  const canChangeStatus = currentStatus === 'confirmed';
+  const updateStatus = async () => { if (!pendingStatus) return; await updateBooking(booking.id, { bookingStatus: pendingStatus }); setNotice('Booking updated successfully.'); setPendingStatus(''); };
+  return <AdminLayout><AdminPage eyebrow="Booking detail" title={booking.id} description="Review the full reservation record." actions={<Link to="/admin/bookings"><Button variant="outline"><ArrowLeft size={16} className="mr-1 inline" /> Back to Bookings</Button></Link>}><div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">{notice && <div className="lg:col-span-2 rounded-xl border border-success/40 bg-success/10 px-4 py-3 text-sm text-green-300" role="status">{notice}</div>}<section className="rounded-2xl border border-border bg-secondary p-6"><div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-sm text-textSecondary">Booking status</p><div className="mt-2"><StatusBadge value={booking.bookingStatus} /></div></div>{canChangeStatus ? <div className="flex items-end gap-3"><Select aria-label="Update booking status" value={pendingStatus} placeholder="Update status" options={[{ value: 'completed', label: 'Mark completed' }, { value: 'cancelled', label: 'Cancel booking' }]} onChange={(event) => setPendingStatus(event.target.value)} /><Button disabled={!pendingStatus} onClick={() => pendingStatus === 'cancelled' ? null : updateStatus()}>Update</Button></div> : <p className="text-sm text-textSecondary">Final status cannot be changed.</p>}</div><div className="mt-8 grid gap-6 border-y border-border py-6 sm:grid-cols-2"><Info label="Customer" value={`${booking.customer?.name} · ${booking.customer?.email} · ${booking.customer?.phone}`} /><Info label="Bike" value={`${booking.bikeSnapshot?.brand} · ${booking.bikeSnapshot?.name}`} /><Info icon={CalendarDays} label="Pickup" value={`${booking.pickup?.date} · ${booking.pickup?.location}`} /><Info icon={CalendarDays} label="Return" value={`${booking.return?.date} · ${booking.return?.location}`} /><Info label="Rental" value={`${booking.rentalDays} days at ${formatCurrency(booking.pricePerDay)}/day`} /><Info label="Created" value={formatDate(booking.createdAt)} /></div><h2 className="mt-7 text-lg font-bold">Payment</h2><div className="mt-4 grid gap-5 sm:grid-cols-2"><Info label="Method" value={booking.paymentMethod || payment?.paymentMethod || 'Pay at Pickup'} /><Info label="Amount" value={formatCurrency(booking.totalAmount)} /><Info label="Status" value={booking.paymentStatus || payment?.paymentStatus || 'pending'} />{(booking.transactionId || payment?.transactionId) && <Info label="Transaction ID" value={booking.transactionId || payment.transactionId} />}</div></section><aside className="rounded-2xl border border-border bg-secondary p-6"><img src={booking.bikeSnapshot?.image} alt={`${booking.bikeSnapshot?.name || 'Bike'} motorcycle`} className="h-48 w-full rounded-xl object-cover" /><h2 className="mt-5 text-xl font-bold">{booking.bikeSnapshot?.name}</h2><p className="mt-1 text-sm text-textSecondary">{booking.bikeSnapshot?.brand}</p><div className="mt-6 space-y-3"><p className="flex justify-between text-sm text-textSecondary"><span>Rental amount</span><strong className="text-text">{formatCurrency(booking.rentalAmount)}</strong></p><p className="flex justify-between text-sm text-textSecondary"><span>Tax</span><strong className="text-text">{formatCurrency(booking.tax)}</strong></p><p className="flex justify-between text-sm text-textSecondary"><span>Deposit</span><strong className="text-text">{formatCurrency(booking.securityDeposit)}</strong></p><p className="flex justify-between border-t border-border pt-3 font-bold"><span>Total</span><strong className="text-accent">{formatCurrency(booking.totalAmount)}</strong></p></div></aside></div><Modal isOpen={pendingStatus === 'cancelled'} onClose={() => setPendingStatus('')} title="Cancel Booking?" footer={<><Button variant="ghost" onClick={() => setPendingStatus('')}>Keep Booking</Button><Button variant="danger" onClick={updateStatus}>Cancel Booking</Button></>}><p className="text-textSecondary">This changes the booking status to cancelled and keeps its history.</p></Modal></AdminPage></AdminLayout>;
+};
+
+const Info = ({ icon: Icon, label, value }) => <div><p className="flex items-center gap-2 text-xs text-textSecondary">{Icon && <Icon size={15} className="text-accent" />}{label}</p><p className="mt-2 break-words font-semibold">{value}</p></div>;
+
+export default AdminBookingDetails;
