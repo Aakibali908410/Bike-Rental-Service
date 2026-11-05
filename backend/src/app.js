@@ -15,25 +15,38 @@ import chatRoutes from "./routes/chatRoutes.js";
 
 const app = express();
 
-// Middlewares
+// Dynamic production-ready CORS configuration
+const parseOrigins = (raw) => {
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .map((o) => o.trim().replace(/\/+$/, "").toLowerCase())
+    .filter(Boolean);
+};
+
 const allowedOrigins = [
-  process.env.CLIENT_URL,
-  process.env.FRONTEND_URL,
+  ...parseOrigins(process.env.CLIENT_URL),
+  ...parseOrigins(process.env.FRONTEND_URL),
   "http://localhost:5173",
   "http://localhost:3000",
-].filter(Boolean);
+  "http://localhost:5000",
+];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // In non-production environments or requests with no origin (curl, mobile, health checks), permit
+      // In non-production environments or requests with no origin (curl, mobile, health checks, server-to-server), permit
       if (!origin || process.env.NODE_ENV !== "production") {
         return callback(null, true);
       }
+
+      const normalizedOrigin = origin.trim().replace(/\/+$/, "").toLowerCase();
+
       // In production, enforce origin whitelist if origins are configured
-      if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      if (allowedOrigins.length === 0 || allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
+
       return callback(new Error(`Origin ${origin} is not allowed by CORS policy.`));
     },
     credentials: true,

@@ -4,15 +4,15 @@ import app from "./app.js";
 import { getOpenAiDiagnostic } from "./config/env.js";
 import { getOpenAIClient } from "./services/aiService.js";
 
-const PORT = Number(process.env.PORT) || 5000;
+const PORT = process.env.PORT || 5000;
 
 // Connect to Database and start server
 const startServer = async () => {
   try {
     await connectDB();
-    const server = app.listen(PORT, () => {
-      console.log(`[Bikes Rental Service API] Server running on http://localhost:${PORT}`);
-      console.log(`[Bikes Rental Service API] Health check available at http://localhost:${PORT}/health`);
+    const server = app.listen(PORT, "0.0.0.0", () => {
+      console.log(`[Bikes Rental Service API] Server running on port ${PORT}`);
+      console.log(`[Bikes Rental Service API] Health check available at /health`);
 
       // Safe startup diagnostic (never exposing secret keys)
       const diagnostic = getOpenAiDiagnostic();
