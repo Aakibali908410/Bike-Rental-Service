@@ -24,32 +24,43 @@ const parseOrigins = (raw) => {
     .filter(Boolean);
 };
 
-const allowedOrigins = [
-  ...parseOrigins(process.env.CLIENT_URL),
-  ...parseOrigins(process.env.FRONTEND_URL),
+// Exact production origin and local development origins
+const defaultOrigins = [
+  "https://motorentalservice.netlify.app",
   "http://localhost:5173",
   "http://localhost:3000",
   "http://localhost:5000",
 ];
 
+const allowedOrigins = [
+  ...defaultOrigins,
+  ...parseOrigins(process.env.CLIENT_URL),
+  ...parseOrigins(process.env.FRONTEND_URL),
+];
+
+const isOriginAllowed = (origin) => {
+  if (!origin) return true;
+  const normalized = origin.trim().replace(/\/+$/, "").toLowerCase();
+  return allowedOrigins.includes(normalized);
+};
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // In non-production environments or requests with no origin (curl, mobile, health checks, server-to-server), permit
+      // In non-production environments or requests with no origin (curl, mobile apps, health checks, server-to-server), permit
       if (!origin || process.env.NODE_ENV !== "production") {
         return callback(null, true);
       }
 
-      const normalizedOrigin = origin.trim().replace(/\/+$/, "").toLowerCase();
-
-      // In production, enforce origin whitelist if origins are configured
-      if (allowedOrigins.length === 0 || allowedOrigins.includes(normalizedOrigin)) {
+      if (isOriginAllowed(origin)) {
         return callback(null, true);
       }
 
       return callback(new Error(`Origin ${origin} is not allowed by CORS policy.`));
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
 );
 app.use(express.json());

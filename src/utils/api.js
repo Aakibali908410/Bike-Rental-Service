@@ -3,9 +3,35 @@
  * Connects React frontend to Express + MongoDB Atlas backend
  */
 
-const API_BASE_URL = (
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api"
-).replace(/\/+$/, "");
+const resolveApiBaseUrl = () => {
+  const envUrl = (import.meta.env.VITE_API_URL || "").trim();
+  if (envUrl) {
+    const cleaned = envUrl.replace(/\/+$/, "");
+    return cleaned.endsWith("/api") ? cleaned : `${cleaned}/api`;
+  }
+
+  // Fallback to local server only in local development mode
+  if (import.meta.env.DEV) {
+    return "http://localhost:5000/api";
+  }
+
+  // In production, fallback to relative /api to never target localhost
+  return "/api";
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
+
+// Safe diagnostic warning for production deployments
+if (typeof window !== "undefined" && window.location) {
+  const isLocalhostTarget = API_BASE_URL.includes("localhost") || API_BASE_URL.includes("127.0.0.1");
+  const isLiveSite = !["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+  if (isLiveSite && (isLocalhostTarget || API_BASE_URL === "/api")) {
+    console.warn(
+      `[Bikes Rental] Frontend is running on ${window.location.origin} with API_BASE_URL="${API_BASE_URL}". Please ensure VITE_API_URL is set in Netlify Site Configuration -> Environment Variables to your Render backend URL and redeploy.`
+    );
+  }
+}
 
 const TOKEN_KEY = "aliMotoToken";
 
@@ -76,9 +102,30 @@ export const apiRequest = async (endpoint, options = {}) => {
       ...options,
       headers,
     });
-  } catch {
-    const error = new Error("Unable to connect to the backend server. Please check your connection or ensure the backend is running.");
+  } catch (err) {
+    const isLocalhostTarget = API_BASE_URL.includes("localhost") || API_BASE_URL.includes("127.0.0.1");
+    const isLiveSite = typeof window !== "undefined" && window.location && !["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+    let message = "Unable to connect to the backend server. Please check your connection or ensure the backend is running.";
+    if (isLiveSite && isLocalhostTarget) {
+      message = "Backend URL is not configured. Please set VITE_API_URL in Netlify site settings to your Render backend URL and trigger a redeploy.";
+    } else {
+      message = "Unable to connect to the backend server. The backend may be spinning up (Render free tier can take 30-50s) or check your connection.";
+    }
+
+    const error = new Error(message);
     error.isNetwork = true;
+    error.originalError = err;
+    throw error;
+  }
+
+  const contentType = response.headers?.get("content-type") || "";
+  if (contentType.includes("text/html")) {
+    const error = new Error(
+      "The server returned an HTML page instead of API JSON. Ensure VITE_API_URL is configured in Netlify to your Render backend URL."
+    );
+    error.isConfigurationError = true;
+    error.status = response.status;
     throw error;
   }
 
@@ -238,6 +285,16 @@ export const bookingAPI = {
  * Payment API endpoints mapped to backend paymentController
  */
 export const paymentAPI = {
+  // POST /api/payments (Protected - process booking payment)
+  processPayment: (paymentData) =>
+    apiRequest("/payments", {
+      method: "POST",
+      body: JSON.stringify(paymentData),
+    }),
+
+  // GET /api/payments/:idOrBookingId (Protected)
+  getPayment: (idOrBookingId) => apiRequest(`/payments/${idOrBookingId}`),
+
   // POST /api/payments/create-intent (Protected)
   createIntent: (intentData) =>
     apiRequest("/payments/create-intent", {
@@ -254,7 +311,7 @@ export const paymentAPI = {
 
   // GET /api/payments/booking/:bookingId (Protected)
   getPaymentByBookingId: (bookingId) =>
-    apiRequest(`/payments/booking/${bookingId}`),
+    apiRequest(`/payments/${bookingId}`),
 };
 
 /**
